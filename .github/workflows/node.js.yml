@@ -36,17 +36,21 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage --karma-config=karma.conf.js 
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage --karma-config=karma.conf.js
+
+      - name: Debug test results path
+        run: |
+          echo "Contenu du dossier test-results :"
+          ls -R front/test-results || echo "⚠️ Aucun test XML trouvé"
 
       - name: Test Reporting
-        uses: phoenix-actions/test-reporting@v15
         if: always()
+        uses: phoenix-actions/test-reporting@v15
         with:
           name: Angular Unit Tests
           path: front/test-results/**/*.xml
           reporter: java-junit
-          
-          
+
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
