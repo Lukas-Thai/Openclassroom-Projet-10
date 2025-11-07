@@ -43,3 +43,4 @@ jobs:
         with:
           name: Angular Unit Tests
           path: front/test-results/**/*.xml
+          report : junit
