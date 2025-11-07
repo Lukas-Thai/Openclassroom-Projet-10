@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run test -- --browsers=ChromeHeadless --watch=false --karma-config=karma.conf.js
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage --karma-config=karma.conf.js 
         
       - name: Test Reporting
         uses: phoenix-actions/test-reporting@v15
@@ -44,3 +44,19 @@ jobs:
           name: Angular Unit Tests
           path: test-results/**/*.xml
           reporter : java-junit
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: front/coverage/
+
+      - name: Add summary to Actions tab
+        if: always()
+        run: |
+          echo "### ✅ Angular Unit Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- Rapport de test JUnit : \`front/test-results/unit-test-results.xml\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Rapport de couverture : \`front/coverage/index.html\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Les artefacts sont téléchargeables ci-dessous 👇" >> $GITHUB_STEP_SUMMARY

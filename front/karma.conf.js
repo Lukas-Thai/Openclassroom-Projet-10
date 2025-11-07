@@ -1,4 +1,4 @@
-// Karma configuration file, see link for more information
+// Karma configuration file
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
@@ -10,7 +10,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('karma-junit-reporter'), 
+      require('karma-junit-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
@@ -20,20 +20,22 @@ module.exports = function (config) {
     jasmineHtmlReporter: {
       suppressAll: true
     },
+    reporters: ['progress', 'kjhtml', 'junit', 'coverage'],
+    junitReporter: {
+      outputDir: 'test-results',
+      outputFile: 'unit-test-results.xml',
+      useBrowserName: false,
+      suite: 'unit'
+    },
     coverageReporter: {
       dir: require('path').join(__dirname, './coverage/bobapp'),
       subdir: '.',
       reporters: [
-        { type: 'html' },
-        { type: 'text-summary' }
-      ]
-    },
-    reporters: ['progress', 'kjhtml', 'junit'], 
-    junitReporter: {
-      outputDir: 'test-results', 
-      outputFile: 'unit-test-results.xml',
-      useBrowserName: false,
-      suite: 'unit'
+        { type: 'html' },         
+        { type: 'lcov' },
+        { type: 'text-summary' }  
+      ],
+      fixWebpackSourcePaths: true
     },
     port: 9876,
     colors: true,
