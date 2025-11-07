@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm run test -- --browsers=ChromeHeadless --watch=false --reporters=junit --karma-config=karma.conf.js
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --karma-config=karma.conf.js
         
       - name: Test Reporting
         uses: phoenix-actions/test-reporting@v15
@@ -43,4 +43,3 @@ jobs:
         with:
           name: Angular Unit Tests
           path: front/test-results/**/*.xml
-          reporter: junit
