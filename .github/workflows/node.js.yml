@@ -1,4 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
 name: Node.js CI
@@ -11,23 +11,36 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
     defaults:
-          run:
-            working-directory: front
+      run:
+        working-directory: front
+
     strategy:
       matrix:
         node-version: [18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: front/package-lock.json
-    - run: npm ci
-    - run: npm run test -- --browsers=ChromeHeadless --watch=false
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --reporters=junit --karma-config=karma.conf.js
+        
+      - name: Test Reporting
+        uses: phoenix-actions/test-reporting@v15
+        if: always()
+        with:
+          name: Angular Unit Tests
+          path: front/test-results/**/*.xml
+          reporter: junit
