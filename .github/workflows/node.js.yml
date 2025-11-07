@@ -38,11 +38,6 @@ jobs:
       - name: Run tests
         run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage --karma-config=karma.conf.js
 
-      - name: Debug test results path
-        run: |
-          echo "Contenu du dossier test-results :"
-          ls -R front/test-results || echo "⚠️ Aucun test XML trouvé"
-
       - name: Test Reporting
         if: always()
         uses: phoenix-actions/test-reporting@v15
