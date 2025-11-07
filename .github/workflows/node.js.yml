@@ -56,5 +56,7 @@ jobs:
       - name: Add summary to Actions tab
         if: always()
         run: |
-          echo "### ✅ Tests du frontend" >> $GITHUB_STEP_SUMMARY
-          echo "### 📊 Pour visualiser la couverture : téléchargez le ZIP des artefacts et ouvrez le fichier index.html dans votre navigateur." >> $GITHUB_STEP_SUMMARY
+          echo "### Rapport de test Angular :" >> $GITHUB_STEP_SUMMARY
+          echo "- [Voir le rapport de tests (onglet Checks)](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Pour visualiser la couverture : téléchargez le ZIP des artefacts et ouvrez le fichier index.html dans votre navigateur." >> $GITHUB_STEP_SUMMARY
