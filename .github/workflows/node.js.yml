@@ -6,10 +6,10 @@ permissions:
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
-
+    branches: [ "main" ]
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,25 +35,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Ensure test-results folder exists
-        run: mkdir -p test-results
+      - name: Run tests
+        run: npm run test -- --browsers=ChromeHeadless --watch=false --code-coverage --karma-config=karma.conf.js
 
-      - name: Run tests with coverage
-        run: npm run test -- \
-          --browsers=ChromeHeadlessNoSandbox \
-          --watch=false \
-          --code-coverage \
-          --karma-config=karma.conf.js
+      - name: Debug test results path
+        run: |
+          echo "Contenu du dossier test-results :"
+          ls -R front/test-results || echo "⚠️ Aucun test XML trouvé"
 
-      - name: Debug test-results
-        run: ls -R test-results || echo "⚠️ Aucun fichier XML généré"
-
-      - name: Test Reporting (JUnit)
-        uses: phoenix-actions/test-reporting@v15
+      - name: Test Reporting
         if: always()
+        uses: phoenix-actions/test-reporting@v15
         with:
           name: Angular Unit Tests
-          path: test-results/**/*.xml
+          path: front/test-results/**/*.xml
           reporter: java-junit
 
       - name: Upload coverage report
@@ -61,5 +56,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: front/coverage/
 
+      - name: Add summary to Actions tab
+        if: always()
+        run: |
+          echo "### Pour visualiser la couverture : téléchargez le ZIP des artefacts et ouvrez le fichier index.html dans votre navigateur." >> $GITHUB_STEP_SUMMARY
