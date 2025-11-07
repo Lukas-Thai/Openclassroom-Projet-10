@@ -68,7 +68,10 @@ jobs:
         if: always()
         run: |
           echo "### ✅ Angular Unit Tests" >> $GITHUB_STEP_SUMMARY
-          echo "- Rapport de test JUnit : \`front/test-results/unit-test-results.xml\`" >> $GITHUB_STEP_SUMMARY
-          echo "- Rapport de couverture : \`front/coverage/index.html\`" >> $GITHUB_STEP_SUMMARY
+          echo "- [Voir le rapport JUnit (Check Run)](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "- [Télécharger le rapport JUnit XML (artifact)](../artifacts/junit-test-results)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Les artefacts sont téléchargeables ci-dessous 👇" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Couverture de code" >> $GITHUB_STEP_SUMMARY
+          echo "- [Télécharger le rapport HTML (artifact)](../artifacts/coverage-report)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Pour visualiser la couverture : téléchargez le ZIP puis ouvrez \`index.html\` dans votre navigateur." >> $GITHUB_STEP_SUMMARY
