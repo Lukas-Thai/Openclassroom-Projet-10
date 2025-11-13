@@ -31,14 +31,6 @@ jobs:
       - name: Build and run tests
         run: mvn clean test
 
-      - name: Test Reporting (JUnit)
-        uses: phoenix-actions/test-reporting@v15
-        if: always()
-        with:
-          name: Backend Unit Tests
-          path: target/surefire-reports/*.xml
-          reporter: java-junit
-
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
