@@ -27,8 +27,8 @@ jobs:
           context: ./back
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-back:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-back:${{ github.sha }}
+            hikarunyan/openclassroom_projet10:back
+            hikarunyan/openclassroom_projet10:back-${{ github.sha }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -36,11 +36,11 @@ jobs:
           context: ./front
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-front:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/bobapp-front:${{ github.sha }}
+            hikarunyan/openclassroom_projet10:front
+            hikarunyan/openclassroom_projet10:front-${{ github.sha }}
 
       - name: Add summary to Actions tab
         run: |
           echo "### 🐳 Images Docker poussées sur Docker Hub :" >> $GITHUB_STEP_SUMMARY
-          echo "- Backend : docker.io/${{ secrets.DOCKERHUB_USERNAME }}/bobapp-back:latest" >> $GITHUB_STEP_SUMMARY
-          echo "- Frontend : docker.io/${{ secrets.DOCKERHUB_USERNAME }}/bobapp-front:latest" >> $GITHUB_STEP_SUMMARY
+          echo "- Backend : docker.io/hikarunyan/openclassroom_projet10:back" >> $GITHUB_STEP_SUMMARY
+          echo "- Frontend : docker.io/hikarunyan/openclassroom_projet10:front" >> $GITHUB_STEP_SUMMARY
